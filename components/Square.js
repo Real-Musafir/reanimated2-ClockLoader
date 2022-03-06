@@ -12,7 +12,15 @@ export default function Square({ index, progress }) {
   const finalAngle = offsetAngle * (N - 1 - index);
 
   const rotate = useDerivedValue(() => {
-    return Math.min(finalAngle, progress.value);
+    if (progress.value <= 2 * Math.PI) {
+      return Math.min(finalAngle, progress.value);
+    }
+
+    if (progress.value - 2 * Math.PI < finalAngle) {
+      return finalAngle;
+    }
+
+    return progress.value;
   });
 
   const translateY = useDerivedValue(() => {
