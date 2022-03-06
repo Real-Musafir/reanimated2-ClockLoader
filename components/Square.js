@@ -5,6 +5,7 @@ import Animated, {
   useAnimatedStyle,
   useDerivedValue,
   withSpring,
+  withTiming,
 } from "react-native-reanimated";
 
 export default function Square({ index, progress }) {
@@ -29,9 +30,9 @@ export default function Square({ index, progress }) {
     }
 
     if (progress.value > 2 * Math.PI) {
-      return (index - N) * SQUARE_SIZE;
+      return withTiming((index - N) * SQUARE_SIZE);
     }
-    return -index * SQUARE_SIZE;
+    return withTiming(-index * SQUARE_SIZE);
   });
 
   const rStyle = useAnimatedStyle(() => {
@@ -51,7 +52,7 @@ export default function Square({ index, progress }) {
           height: SQUARE_SIZE,
           aspectRatio: 1,
           backgroundColor: "white",
-          opacity: (index + 1) / N,
+          //   opacity: (index + 1) / N,
           position: "absolute",
         },
         rStyle,
