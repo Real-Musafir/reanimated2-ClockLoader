@@ -27,6 +27,10 @@ export default function Square({ index, progress }) {
     if (rotate.value === finalAngle) {
       return withSpring(-N * SQUARE_SIZE);
     }
+
+    if (progress.value > 2 * Math.PI) {
+      return (index - N) * SQUARE_SIZE;
+    }
     return -index * SQUARE_SIZE;
   });
 
