@@ -1,19 +1,32 @@
 import { View, Text } from "react-native";
 import React from "react";
 import { N, SQUARE_SIZE } from "../constants";
-import Animated, { useAnimatedStyle } from "react-native-reanimated";
+import Animated, {
+  useAnimatedStyle,
+  useDerivedValue,
+  withSpring,
+} from "react-native-reanimated";
 
 export default function Square({ index, progress }) {
   const offsetAngle = (2 * Math.PI) / N;
   const finalAngle = offsetAngle * (N - 1 - index);
 
-  const rStyle = useAnimatedStyle(() => {
-    const rotate = Math.min(finalAngle, progress.value);
+  const rotate = useDerivedValue(() => {
+    return Math.min(finalAngle, progress.value);
+  });
 
+  const translateY = useDerivedValue(() => {
+    if (rotate.value === finalAngle) {
+      return withSpring(-N * SQUARE_SIZE);
+    }
+    return -index * SQUARE_SIZE;
+  });
+
+  const rStyle = useAnimatedStyle(() => {
     return {
       transform: [
-        { rotate: `${rotate}rad` },
-        { translateY: -index * SQUARE_SIZE },
+        { rotate: `${rotate.value}rad` },
+        { translateY: translateY.value },
       ],
     };
   });
