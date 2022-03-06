@@ -11,6 +11,8 @@ export default function Square({ index }) {
         aspectRatio: 1,
         backgroundColor: "white",
         opacity: (index + 1) / N,
+        position: "absolute",
+        transform: [{ translateY: -index * SQUARE_SIZE }],
       }}
     />
   );
